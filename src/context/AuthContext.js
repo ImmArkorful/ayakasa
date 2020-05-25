@@ -14,6 +14,34 @@ const Provider = ({ children }) => {
     app.auth().signOut()
   }
 
+  function verifyCode(confirmationResult) {
+    const code = '123456'
+    confirmationResult
+      .confirm(code)
+      .then((result) => {
+        const { user } = result
+        console.log(user)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+  function onSignInSubmit() {
+    const phoneNumber = '+233547557948'
+    const appVerifier = window.recaptchaVerifier
+    firebase
+      .auth()
+      .signInWithPhoneNumber(phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult
+        verifyCode(confirmationResult)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
   function setUpRecaptchaVerifier() {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       'sign-in-button',
@@ -21,39 +49,24 @@ const Provider = ({ children }) => {
         size: 'invisible',
         // eslint-disable-next-line no-unused-vars
         callback: (response) => {
-          // reCAPTCHA solved, allow signInWithPhoneNumber.
-          // onSignInSubmit()
+          console.log('we e')
+          // onSignInSubmit(response)
         },
       }
     )
 
-    const phoneNumber = '+233547557948'
-    const appVerifier = window.recaptchaVerifier
-    firebase
-      .auth()
-      .signInWithPhoneNumber(phoneNumber, appVerifier)
-      .then((confirmationResult) => {
-        // SMS sent. Prompt user to type the code from the message, then sign the
-        // user in with confirmationResult.confirm(code).
-        window.confirmationResult = confirmationResult
-      })
-      // eslint-disable-next-line no-unused-vars
-      .catch((error) => {
-        // Error; SMS not sent
-        // ...
-      })
+    onSignInSubmit()
   }
 
   function signIn() {
+    console.log('iin f')
     setUpRecaptchaVerifier()
-    // app
-    //   .auth()
-    //   .signInAnonymously()
-    //   .catch(() => {})
   }
 
   useEffect(() => {
     app.auth().useDeviceLanguage()
+
+    // setUpRecaptchaVerifier()
 
     app.auth().onAuthStateChanged((user) => {
       setCurrentUser(user)

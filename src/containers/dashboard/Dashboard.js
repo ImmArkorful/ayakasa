@@ -45,13 +45,13 @@ const Dashboard = () => {
         <Trans>paragraph</Trans>
       </p>
 
-      <p
+      {/* <p
         style={{
           fontFamily: theme[themeContext.activeTheme]?.fonts.primary,
         }}
       >
         This is a sentence.
-      </p>
+      </p> */}
 
       <button
         id="sign-in-button"
