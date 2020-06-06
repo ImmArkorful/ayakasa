@@ -3,12 +3,12 @@ import styled from 'styled-components'
 
 //  Components
 
-const Contact = () => <MainHolder />
+const About = () => <MainHolder />
 
-export default Contact
+export default About
 
 const MainHolder = styled.div`
   display: grid;
-  grid-template-rows: 1fr;
+  grid-template-rows: 1fr auto;
   padding: 20px;
 `

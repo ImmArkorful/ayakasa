@@ -5,6 +5,6 @@ import Phone from '../../../components/phone'
 
 test('renders description', () => {
   const { getByText } = render(<Phone />)
-  const linkElement = getByText(/Enter your Phone Number/i)
+  const linkElement = getByText(/Enter your Phone Number./i)
   expect(linkElement).toBeInTheDocument()
 })

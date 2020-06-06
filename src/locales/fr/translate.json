@@ -4,6 +4,9 @@
     "provide_number_head_msg": "Entrez votre numéro de téléphone.",
     "provide_number_description": "Un code sera envoyé à ce numéro pour vérifier votre identité.",
     "next": "suivant",
-    "privacy_policy": "Politique de confidentialité"
+    "privacy_policy": "Politique de confidentialité",
+    "home": "accueil",
+    "about": "À propos",
+    "contact": "contact"
   }
 }

@@ -4,6 +4,9 @@
     "provide_number_head_msg": "Enter your Phone Number.",
     "provide_number_description": "A code will be sent to this number to verify your identity.",
     "next": "Next",
-    "privacy_policy": "Privacy Policy"
+    "privacy_policy": "Privacy Policy",
+    "home": "home",
+    "about": "about",
+    "contact": "contact"
   }
 }

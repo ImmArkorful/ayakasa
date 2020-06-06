@@ -4,7 +4,6 @@ import styled from 'styled-components'
 //  Components
 import Phoneholder from '../containers/Phoneholder'
 import { Dashboard } from '../containers/dashboard'
-import Nav from '../components/nav'
 
 const Home = () => (
   <MainHolder>
@@ -12,7 +11,6 @@ const Home = () => (
       <Dashboard />
       <Phoneholder />
     </InnerHolder>
-    <Nav />
   </MainHolder>
 )
 
@@ -21,8 +19,6 @@ export default Home
 const MainHolder = styled.div`
   display: grid;
   grid-template-rows: 1fr auto;
-  height: 100vh;
-  background-color: #e8edef;
   padding: 20px;
 `
 
