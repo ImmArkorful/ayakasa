@@ -15,6 +15,5 @@ export default () => {
 const Menu = styled.p`
   text-align: center;
   font-family: ${(props) => props.font};
-  background-color: #f7e3dc;
   padding: 10px;
 `
