@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { withTranslation, Trans } from 'react-i18next'
 
 // context
 import { useTheme } from '../../hooks'
@@ -7,7 +8,7 @@ import { useTheme } from '../../hooks'
 // assets
 const LogoImage = require('../../assets/images/logo.png')
 
-export default () => {
+const Phone = () => {
   const { themeContext, theme } = useTheme()
 
   const primaryFont = theme[themeContext.activeTheme]?.fonts.primary
@@ -15,19 +16,28 @@ export default () => {
   return (
     <MainHolder>
       <Logo alt="Logo" src={LogoImage} />
-      <HeadMSG font={primaryFont}>Enter your Phone Number</HeadMSG>
-      <NumberInput type="number" font={primaryFont} />
+      <HeadMSG font={primaryFont}>
+        <Trans>provide_number_head_msg</Trans>
+      </HeadMSG>
+      <NumberInput type="text" font={primaryFont} />
       <Description font={primaryFont}>
-        A code will be sent to this number to veriify your identity
+        <Trans>provide_number_description</Trans>
       </Description>
-      <ActionButton font={primaryFont}>Next</ActionButton>
-      <Note font={primaryFont}>Privacy Policy</Note>
+      <ActionButton font={primaryFont}>
+        <Trans>next</Trans>
+      </ActionButton>
+      <Note font={primaryFont}>
+        <Trans>privacy_policy</Trans>
+      </Note>
     </MainHolder>
   )
 }
 
+export default withTranslation()(Phone)
+
 const MainHolder = styled.div`
   display: grid;
+  grid-template-rows: auto auto auto auto 1fr auto;
   justify-content: center;
   align-content: flex-start;
   paddinng: 10px;
@@ -40,9 +50,11 @@ const Logo = styled.img`
   margin: 5px;
 `
 
-const HeadMSG = styled.h1`
+const HeadMSG = styled.h3`
   text-align: center;
   font-family: ${(props) => props.font};
+  margin: 15px;
+  line-height: 30px;
 `
 
 const NumberInput = styled.input`
@@ -58,6 +70,7 @@ const Description = styled.p`
   text-align: center;
   font-size: 13px;
   line-height: 16px;
+  margin: 15px;
 `
 
 const ActionButton = styled.button`
@@ -65,6 +78,9 @@ const ActionButton = styled.button`
   font-family: ${(props) => props.font};
   padding: 8px;
   border-radius: 5px;
+  height: 40px;
+  align-self: flex-end;
+  margin-bottom: 30px;
 `
 
 const Note = styled.p`

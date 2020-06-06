@@ -1,5 +1,9 @@
 {
   "translations": {
-    "paragraph": "This is not french."
+    "paragraph": "This is not french.",
+    "provide_number_head_msg": "Entrez votre numéro de téléphone.",
+    "provide_number_description": "Un code sera envoyé à ce numéro pour vérifier votre identité.",
+    "next": "suivant",
+    "privacy_policy": "Politique de confidentialité"
   }
 }
