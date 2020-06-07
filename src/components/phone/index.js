@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
 import { withTranslation, Trans } from 'react-i18next'
+import PropTypes from 'prop-types'
 
 // context
-import { useTheme } from '../../hooks'
+import { useTheme, useAuth } from '../../hooks'
 
 // assets
 const LogoImage = require('../../assets/images/logo.png')
@@ -11,24 +12,38 @@ const LogoImage = require('../../assets/images/logo.png')
 const Phone = () => {
   const { themeContext, theme } = useTheme()
 
+  const { authContext } = useAuth()
+
+  const {
+    setPhoneNumber,
+    otpSent,
+    setOtpCode,
+    validatePhoneNumber,
+    verifyCode,
+  } = authContext
+
   const primaryFont = theme[themeContext.activeTheme]?.fonts.primary
+
+  const [termsAgreed, setTermsAgreed] = useState(true)
 
   return (
     <MainHolder>
       <Logo alt="Logo" src={LogoImage} />
-      <HeadMSG font={primaryFont}>
-        <Trans>provide_number_head_msg</Trans>
-      </HeadMSG>
-      <NumberInput type="text" font={primaryFont} />
-      <Description font={primaryFont}>
-        <Trans>provide_number_description</Trans>
-      </Description>
-      <ActionButton font={primaryFont}>
-        <Trans>next</Trans>
-      </ActionButton>
-      <Note font={primaryFont}>
-        <Trans>privacy_policy</Trans>
-      </Note>
+      {otpSent === false ? (
+        <ProvideNumber
+          primaryFont={primaryFont}
+          setPhoneNumber={setPhoneNumber}
+          validatePhoneNumber={validatePhoneNumber}
+          setTermsAgreed={setTermsAgreed}
+          termsAgreed={termsAgreed}
+        />
+      ) : (
+        <VerifyNumber
+          primaryFont={primaryFont}
+          setOtpCode={setOtpCode}
+          verifyCode={verifyCode}
+        />
+      )}
     </MainHolder>
   )
 }
@@ -37,10 +52,10 @@ export default withTranslation()(Phone)
 
 const MainHolder = styled.div`
   display: grid;
-  grid-template-rows: auto auto auto auto 1fr auto;
+  grid-template-rows: auto 1fr;
   justify-content: center;
   align-content: flex-start;
-  paddinng: 10px;
+  paddinng: 10px 10px 15px 10px;
 `
 
 const Logo = styled.img`
@@ -80,13 +95,139 @@ const ActionButton = styled.button`
   border-radius: 5px;
   height: 40px;
   align-self: flex-end;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `
 
-const Note = styled.p`
+const Note = styled.label`
   font-family: ${(props) => props.font};
-  margin-top: 2px;
-  text-align: center;
   font-size: 11px;
   line-height: 16px;
+  margin: 0px;
+  color: ${(props) => props.color};
 `
+
+const PrivacyHolder = styled.div`
+  display: grid;
+  grid-template-columns: 1fr auto;
+  margin: 0px 20px 30px 20px;
+`
+
+const AgreeCheck = styled.input``
+
+const RecaptchaHolder = styled.div`
+  margin: 15px;
+  justify-self: center;
+`
+
+const InnerHolderNumber = styled.div`
+  display: grid;
+  grid-template-rows: auto auto auto 1fr auto;
+`
+
+const InnerHolderVerify = styled.div`
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
+`
+
+const ProvideNumber = ({
+  primaryFont,
+  validatePhoneNumber,
+  setPhoneNumber,
+  termsAgreed,
+  setTermsAgreed,
+}) => {
+  const termsCheckBox = useRef()
+
+  return (
+    <InnerHolderNumber>
+      <HeadMSG font={primaryFont}>
+        <Trans>provide_number_head_msg</Trans>
+      </HeadMSG>
+      <NumberInput
+        type="text"
+        font={primaryFont}
+        onChange={(e) => {
+          setPhoneNumber(e.target.value)
+        }}
+      />
+      <Description font={primaryFont}>
+        <Trans>provide_number_description</Trans>
+      </Description>
+      <RecaptchaHolder id="recaptcha-container" />
+      <ActionButton
+        id="send-code"
+        font={primaryFont}
+        onClick={() => {
+          if (termsCheckBox.current.checked) {
+            validatePhoneNumber()
+          } else {
+            setTermsAgreed(false)
+          }
+        }}
+      >
+        <Trans>next</Trans>
+      </ActionButton>
+      <PrivacyHolder>
+        <Note
+          font={primaryFont}
+          htmlFor="terms"
+          color={termsAgreed ? 'black' : 'red'}
+        >
+          <Trans>privacy_policy</Trans>
+        </Note>
+        <AgreeCheck
+          type="checkbox"
+          id="terms"
+          ref={termsCheckBox}
+          onChange={(e) => {
+            setTermsAgreed(e.target.checked)
+          }}
+        />
+      </PrivacyHolder>
+    </InnerHolderNumber>
+  )
+}
+
+ProvideNumber.propTypes = {
+  primaryFont: PropTypes.string.isRequired,
+  setPhoneNumber: PropTypes.func.isRequired,
+  validatePhoneNumber: PropTypes.func.isRequired,
+  setTermsAgreed: PropTypes.func.isRequired,
+  termsAgreed: PropTypes.bool.isRequired,
+}
+
+const VerifyNumber = ({ primaryFont, setOtpCode, verifyCode }) => {
+  return (
+    <InnerHolderVerify>
+      <HeadMSG font={primaryFont}>
+        <Trans>verify_number_head_msg</Trans>
+      </HeadMSG>
+      <NumberInput
+        type="text"
+        font={primaryFont}
+        onChange={(e) => {
+          setOtpCode(e.target.value)
+        }}
+      />
+      <Description font={primaryFont}>
+        <Trans>verify_number_description</Trans>
+      </Description>
+      <RecaptchaHolder id="recaptcha-container" />
+      <ActionButton
+        id="sign-in-button"
+        font={primaryFont}
+        onClick={() => {
+          verifyCode()
+        }}
+      >
+        <Trans>done</Trans>
+      </ActionButton>
+    </InnerHolderVerify>
+  )
+}
+
+VerifyNumber.propTypes = {
+  primaryFont: PropTypes.string.isRequired,
+  setOtpCode: PropTypes.func.isRequired,
+  verifyCode: PropTypes.func.isRequired,
+}

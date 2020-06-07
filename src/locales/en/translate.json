@@ -1,10 +1,12 @@
 {
   "translations": {
-    "paragraph": "This is english.",
     "provide_number_head_msg": "Enter your Phone Number.",
+    "verify_number_head_msg": "Verify your Phone Number.",
     "provide_number_description": "A code will be sent to this number to verify your identity.",
+    "verify_number_description": "Please enter the code sent to the number you provided.",
     "next": "Next",
-    "privacy_policy": "Privacy Policy",
+    "done": "Done",
+    "privacy_policy": "Agree to terms and conditions.",
     "home": "home",
     "about": "about",
     "contact": "contact"
