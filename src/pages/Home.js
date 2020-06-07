@@ -1,31 +1,29 @@
 import React from 'react'
+import styled from 'styled-components'
+
+//  Components
 import Phoneholder from '../containers/Phoneholder'
 import { Dashboard } from '../containers/dashboard'
-import Nav from '../components/nav'
 
 const Home = () => (
-  <div
-    style={{
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      flex: 1,
-      borderWidth: 3,
-      padding: 20,
-      height: '100vh',
-      backgroundColor: '#F7E3DC',
-    }}
-  >
-    <div
-      style={{
-        display: 'flex',
-      }}
-    >
+  <MainHolder>
+    <InnerHolder>
       <Dashboard />
       <Phoneholder />
-    </div>
-    <Nav />
-  </div>
+    </InnerHolder>
+  </MainHolder>
 )
 
 export default Home
+
+const MainHolder = styled.div`
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding: 20px;
+`
+
+const InnerHolder = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 3fr 2fr;
+`

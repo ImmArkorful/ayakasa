@@ -1,64 +1,33 @@
 import React from 'react'
-import { withTranslation, Trans } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
+import styled from 'styled-components'
 
 // hooks
-import { useTheme, useAuth } from '../../hooks'
+// import { useTheme, useAuth } from '../../hooks'
 
 const Dashboard = () => {
-  const { themeContext, theme } = useTheme()
-  const { authContext } = useAuth()
+  // const { themeContext, theme } = useTheme()
+  // const { authContext } = useAuth()
 
-  const { signOut, signIn } = authContext
+  // const { signOut, signIn } = authContext
+
+  // const primaryFont = theme[themeContext.activeTheme]?.fonts.primary
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        flex: 3,
-        height: '100%',
-      }}
-    >
-      <p
-        style={{
-          fontSize: 80,
-          color: 'blue',
-          fontFamily: theme[themeContext.activeTheme]?.fonts.primary,
-        }}
-      >
-        send sms for free!
-      </p>
-      <p
-        style={{
-          fontFamily: theme[themeContext.activeTheme]?.fonts.primary,
-          fontSize: 18,
-          color: '#4F5EB2',
-        }}
-      >
+    <MainHolder>
+      {/* <Header font={primaryFont}> send sms for free!</Header>
+      <Description font={primaryFont}>
         SEND, SAVE AND MANAGE YOUR CONTACTS, ALL IN ONE PLACE.
-      </p>
-      <p
-        style={{
-          fontFamily: theme[themeContext.activeTheme]?.fonts.primary,
-        }}
-      >
+      </Description>
+      <SubMessage font={primaryFont}>
         <Trans>paragraph</Trans>
-      </p>
-
-      {/* <p
-        style={{
-          fontFamily: theme[themeContext.activeTheme]?.fonts.primary,
-        }}
-      >
-        This is a sentence.
-      </p> */}
-
+      </SubMessage>
       <button
         id="sign-in-button"
         type="submit"
         onClick={signIn}
         style={{
-          fontFamily: theme[themeContext.activeTheme]?.fonts.primary,
+          fontFamily: primaryFont,
           fontSize: 18,
           color: '#4F5EB2',
           width: 300,
@@ -66,21 +35,40 @@ const Dashboard = () => {
       >
         sign in
       </button>
-
       <button
         type="submit"
         onClick={signOut}
         style={{
-          fontFamily: theme[themeContext.activeTheme]?.fonts.primary,
+          fontFamily: primaryFont,
           fontSize: 18,
           color: '#4F5EB2',
           width: 300,
         }}
       >
         sign out
-      </button>
-    </div>
+      </button> */}
+    </MainHolder>
   )
 }
 
 export default withTranslation()(Dashboard)
+
+const MainHolder = styled.div`
+  display: grid;
+`
+
+// const Description = styled.p`
+//   font-family: ${(props) => props.font};
+//   font-size: 18px;
+//   color: #4f5eb2;
+// `
+
+// const SubMessage = styled.p`
+//   font-family: ${(props) => props.font};
+// `
+
+// const Header = styled.h1`
+//   font-size: 80px;
+//   color: blue;
+//   font-family: ${(props) => props.font};
+// `

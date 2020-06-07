@@ -1,5 +1,14 @@
 {
   "translations": {
-    "paragraph": "This is not french."
+    "provide_number_head_msg": "Entrez votre numéro de téléphone.",
+    "verify_number_head_msg": "Vérifiez votre numéro de téléphone.",
+    "provide_number_description": "Un code sera envoyé à ce numéro pour vérifier votre identité.",
+    "verify_number_description": "Veuillez saisir le code envoyé au numéro que vous avez fourni.",
+    "next": "suivant",
+    "done": "D'accord!",
+    "privacy_policy": "Accepter les termes et conditions.",
+    "home": "accueil",
+    "about": "À propos",
+    "contact": "contact"
   }
 }
