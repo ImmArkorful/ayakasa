@@ -5,7 +5,7 @@
     "user_info_head_msg": "Bon, dernier morceau.. Presque fini!",
     "provide_number_description": "Un code sera envoyé à ce numéro pour vérifier votre identité.",
     "verify_number_description": "Veuillez saisir le code envoyé au numéro que vous avez fourni.",
-    "user_info_description": "Veuillez fournir votre nom comme signature et email pour les mises à jour.",
+    "user_info_description": "Veuillez indiquer votre nom et e-mail.",
     "next": "suivant",
     "done": "D'accord!",
     "privacy_policy": "Accepter les termes et conditions.",

@@ -27,7 +27,7 @@ const UserInfo = ({ primaryFont }) => {
         </Description>
       </FormHolder>
       <ActionButton id="send-code" font={primaryFont} onClick={() => {}}>
-        <Trans>next</Trans>
+        <Trans>done</Trans>
       </ActionButton>
     </InnerHolderNumber>
   )

@@ -12,6 +12,8 @@ import VerifyNumber from './verifyNumber'
 import ProvideNumber from './provideNumber'
 // eslint-disable-next-line no-unused-vars
 import UserInfo from './userInfo'
+import BasicInfo from './basicInfo'
+import Home from './home'
 
 // assets
 const LogoImage = require('../../assets/images/logo.png')
@@ -27,6 +29,10 @@ const Phone = () => {
     setOtpCode,
     validatePhoneNumber,
     verifyCode,
+    userVerified,
+    saveUserData,
+    signOut,
+    infoSaved,
   } = authContext
 
   const primaryFont = theme[themeContext.activeTheme]?.fonts.primary
@@ -36,7 +42,8 @@ const Phone = () => {
   return (
     <MainHolder>
       <Logo alt="Logo" src={LogoImage} />
-      {otpSent === false ? (
+
+      {!otpSent && !userVerified && (
         <ProvideNumber
           primaryFont={primaryFont}
           setPhoneNumber={setPhoneNumber}
@@ -44,13 +51,21 @@ const Phone = () => {
           setTermsAgreed={setTermsAgreed}
           termsAgreed={termsAgreed}
         />
-      ) : (
+      )}
+
+      {otpSent && !userVerified && (
         <VerifyNumber
           primaryFont={primaryFont}
           setOtpCode={setOtpCode}
           verifyCode={verifyCode}
         />
       )}
+
+      {userVerified && !infoSaved && (
+        <BasicInfo primaryFont={primaryFont} saveUserData={saveUserData} />
+      )}
+
+      {infoSaved && <Home primaryFont={primaryFont} signOut={signOut} />}
     </MainHolder>
   )
 }

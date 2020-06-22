@@ -5,7 +5,7 @@
     "user_info_head_msg": "OkAY, last piece.. Almost done!",
     "provide_number_description": "A code will be sent to this number to verify your identity.",
     "verify_number_description": "Please enter the code sent to the number you provided.",
-    "user_info_description": "Please provide your name as signature and email for updates.",
+    "user_info_description": "Please provide your name and email.",
     "next": "Next",
     "done": "Done",
     "privacy_policy": "Agree to terms and conditions.",

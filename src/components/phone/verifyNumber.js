@@ -4,7 +4,7 @@ import { withTranslation, Trans } from 'react-i18next'
 import PropTypes from 'prop-types'
 
 // compoonents
-import { ActionButton, Description, NumberInput } from './common'
+import { HeadMSG, ActionButton, Description, NumberInput } from './common'
 
 const VerifyNumber = ({ primaryFont, setOtpCode, verifyCode }) => {
   return (
@@ -29,7 +29,7 @@ const VerifyNumber = ({ primaryFont, setOtpCode, verifyCode }) => {
           verifyCode()
         }}
       >
-        <Trans>done</Trans>
+        <Trans>next</Trans>
       </ActionButton>
     </InnerHolderVerify>
   )
@@ -38,13 +38,6 @@ const VerifyNumber = ({ primaryFont, setOtpCode, verifyCode }) => {
 const InnerHolderVerify = styled.div`
   display: grid;
   grid-template-rows: auto auto auto 1fr;
-`
-
-const HeadMSG = styled.h3`
-  text-align: center;
-  font-family: ${(props) => props.font};
-  margin: 15px;
-  line-height: 30px;
 `
 
 export default withTranslation()(VerifyNumber)
