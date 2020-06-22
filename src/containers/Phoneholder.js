@@ -29,7 +29,7 @@ const BodyOne = styled.div`
   display: grid;
   height: 710px;
   width: 360px;
-  background-color: #323343;
+  background-color: #626368;
   border-radius: 30px;
 `
 
