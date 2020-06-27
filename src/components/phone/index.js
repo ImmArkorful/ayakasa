@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { withTranslation } from 'react-i18next'
 // eslint-disable-next-line no-unused-vars
@@ -33,11 +33,15 @@ const Phone = () => {
     saveUserData,
     signOut,
     infoSaved,
+    phoneNumber,
+    countryCode,
+    setCountryCode,
+    phoneNumValid,
+    setTermsAgreed,
+    termsAgreed,
   } = authContext
 
   const primaryFont = theme[themeContext.activeTheme]?.fonts.primary
-
-  const [termsAgreed, setTermsAgreed] = useState(true)
 
   return (
     <MainHolder>
@@ -48,8 +52,12 @@ const Phone = () => {
           primaryFont={primaryFont}
           setPhoneNumber={setPhoneNumber}
           validatePhoneNumber={validatePhoneNumber}
-          setTermsAgreed={setTermsAgreed}
           termsAgreed={termsAgreed}
+          setTermsAgreed={setTermsAgreed}
+          phoneNumber={phoneNumber}
+          countryCode={countryCode}
+          setCountryCode={setCountryCode}
+          phoneNumValid={phoneNumValid}
         />
       )}
 

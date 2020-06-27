@@ -1,4 +1,5 @@
-import React, { useRef } from 'react'
+/* eslint-disable jsx-a11y/accessible-emoji */
+import React, { useRef, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { withTranslation, Trans } from 'react-i18next'
 import PropTypes from 'prop-types'
@@ -9,24 +10,52 @@ import { HeadMSG, ActionButton, Description, NumberInput } from './common'
 const ProvideNumber = ({
   primaryFont,
   validatePhoneNumber,
+  phoneNumValid,
   setPhoneNumber,
+  phoneNumber,
   termsAgreed,
   setTermsAgreed,
+  countryCode,
+  setCountryCode,
 }) => {
   const termsCheckBox = useRef()
+
+  const [termsAgreedLoacal, setTermsAgreedLoacal] = useState(true)
+
+  useEffect(() => {
+    if (phoneNumber !== '') if (!termsAgreed) setTermsAgreedLoacal(false)
+  }, [termsAgreed])
 
   return (
     <InnerHolderNumber>
       <HeadMSG font={primaryFont}>
         <Trans>provide_number_head_msg</Trans>
       </HeadMSG>
-      <NumberInput
-        type="text"
-        font={primaryFont}
-        onChange={(e) => {
-          setPhoneNumber(e.target.value)
-        }}
-      />
+      <NumberBox>
+        <NumberInput
+          size={4}
+          maxLength={4}
+          contentEditable={false}
+          type="text"
+          value={countryCode}
+          margin="5px"
+          font={primaryFont}
+          onChange={() => {
+            setCountryCode('+233')
+          }}
+        />
+        <NumberInput
+          maxLength={10}
+          hasError={!phoneNumValid}
+          type="text"
+          font={primaryFont}
+          value={phoneNumber}
+          onChange={(e) => {
+            const number = e.target.value.replace(/[^0-9]/g, '')
+            setPhoneNumber(number)
+          }}
+        />
+      </NumberBox>
       <Description font={primaryFont}>
         <Trans>provide_number_description</Trans>
       </Description>
@@ -35,11 +64,8 @@ const ProvideNumber = ({
         id="send-code"
         font={primaryFont}
         onClick={() => {
-          if (termsCheckBox.current.checked) {
-            validatePhoneNumber()
-          } else {
-            setTermsAgreed(false)
-          }
+          validatePhoneNumber()
+          if (!termsCheckBox.current.checked) setTermsAgreedLoacal(false)
         }}
       >
         <Trans>next</Trans>
@@ -48,7 +74,7 @@ const ProvideNumber = ({
         <Note
           font={primaryFont}
           htmlFor="terms"
-          color={termsAgreed ? 'black' : 'red'}
+          color={termsAgreedLoacal ? 'black' : 'red'}
         >
           <Trans>privacy_policy</Trans>
         </Note>
@@ -58,6 +84,7 @@ const ProvideNumber = ({
           ref={termsCheckBox}
           onChange={(e) => {
             setTermsAgreed(e.target.checked)
+            setTermsAgreedLoacal(e.target.checked)
           }}
         />
       </PrivacyHolder>
@@ -70,8 +97,14 @@ const RecaptchaHolder = styled.div`
   justify-self: center;
 `
 
+const NumberBox = styled.div`
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+`
+
 const Note = styled.label`
-  font-family: ${(props) => props.font};
+  font-family: ${({ font }) => font};
   font-size: 11px;
   line-height: 16px;
   margin: 0px;
@@ -91,6 +124,8 @@ const InnerHolderNumber = styled.div`
   grid-template-rows: auto auto auto 1fr auto;
 `
 
+ProvideNumber.defaultProps = { phoneNumValid: true }
+
 export default withTranslation()(ProvideNumber)
 
 ProvideNumber.propTypes = {
@@ -98,5 +133,9 @@ ProvideNumber.propTypes = {
   setPhoneNumber: PropTypes.func.isRequired,
   validatePhoneNumber: PropTypes.func.isRequired,
   setTermsAgreed: PropTypes.func.isRequired,
+  phoneNumber: PropTypes.string.isRequired,
+  setCountryCode: PropTypes.func.isRequired,
+  countryCode: PropTypes.string.isRequired,
   termsAgreed: PropTypes.bool.isRequired,
+  phoneNumValid: PropTypes.bool,
 }

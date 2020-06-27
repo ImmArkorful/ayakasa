@@ -11,10 +11,14 @@ const AuthContext = createContext({})
 const Provider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null)
   const [phoneNumber, setPhoneNumber] = useState('')
+  const [countryCode, setCountryCode] = useState('+233')
   const [otpCode, setOtpCode] = useState('')
   const [otpSent, setOtpSent] = useState(false)
   const [userVerified, setUserVerified] = useState(false)
   const [infoSaved, setInfoSaved] = useState(false)
+  const [phoneNumValid, setPhoneNumValid] = useState(true)
+  const [verfyThisNumber, setVerfyThisNumber] = useState('')
+  const [termsAgreed, setTermsAgreed] = useState(false)
 
   function verifyCode() {
     window.confirmationResult
@@ -24,6 +28,11 @@ const Provider = ({ children }) => {
         setCurrentUser(user)
         setUserVerified(true)
         localStorage.setItem('userVerified', 'true')
+
+        if (!result.additionalUserInfo.isNewUser) {
+          setInfoSaved(true)
+          localStorage.setItem('infoSaved', 'true')
+        }
       })
       .catch(() => {})
   }
@@ -33,7 +42,7 @@ const Provider = ({ children }) => {
 
     firebase
       .auth()
-      .signInWithPhoneNumber(phoneNumber, appVerifier)
+      .signInWithPhoneNumber(verfyThisNumber, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult
         setOtpSent(true)
@@ -59,9 +68,17 @@ const Provider = ({ children }) => {
   }
 
   function validatePhoneNumber() {
-    const parsedPhoneNumber = parsePhoneNumberFromString(phoneNumber)
+    const parsedPhoneNumber = parsePhoneNumberFromString(
+      `${countryCode}${phoneNumber}`
+    )
 
-    if (parsedPhoneNumber && parsedPhoneNumber.isValid()) setUpRecaptchaVerifier()
+    if (parsedPhoneNumber && parsedPhoneNumber.isValid()) {
+      if (!termsAgreed) return
+      setVerfyThisNumber(parsedPhoneNumber.number)
+      setPhoneNumValid(true)
+    } else {
+      setPhoneNumValid(false)
+    }
   }
 
   function saveUserData(name, email) {
@@ -84,12 +101,19 @@ const Provider = ({ children }) => {
     firebase
       .auth()
       .signOut()
-      .then(() => {
-        localStorage.clear()
+      .then(async () => {
         setCurrentUser(null)
         setOtpSent(false)
         setUserVerified(false)
         setInfoSaved(false)
+        setPhoneNumber('')
+
+        localStorage.clear()
+
+        setTermsAgreed(false)
+        setPhoneNumValid(true)
+
+        setVerfyThisNumber('')
       })
       .catch(() => {
         // An error happened.
@@ -110,12 +134,18 @@ const Provider = ({ children }) => {
     setInfoSaved(infoSavedLo)
   }, [])
 
+  useEffect(() => {
+    if (verfyThisNumber !== '' || (termsAgreed && phoneNumValid))
+      setUpRecaptchaVerifier()
+  }, [verfyThisNumber])
+
   return (
     <AuthContext.Provider
       value={{
         currentUser,
         saveUserData,
         signOut,
+        phoneNumber,
         setPhoneNumber,
         setOtpCode,
         otpSent,
@@ -124,6 +154,11 @@ const Provider = ({ children }) => {
         verifyCode,
         userVerified,
         infoSaved,
+        countryCode,
+        setCountryCode,
+        phoneNumValid,
+        termsAgreed,
+        setTermsAgreed,
       }}
     >
       {children}
