@@ -13,8 +13,13 @@ const VerifyNumber = ({
   otpCode,
   codeValid,
 }) => {
+  // useEffect(() => {
+  //   setIsLoading(false)
+  // }, [])
+
   const verifyDescription = 'verify_number_description'
   const errorMessage = 'code_error_message'
+
   return (
     <InnerHolderVerify>
       <HeadMSG font={primaryFont}>
