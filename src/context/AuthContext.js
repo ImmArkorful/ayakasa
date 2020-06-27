@@ -19,6 +19,7 @@ const Provider = ({ children }) => {
   const [phoneNumValid, setPhoneNumValid] = useState(true)
   const [verfyThisNumber, setVerfyThisNumber] = useState('')
   const [termsAgreed, setTermsAgreed] = useState(false)
+  const [codeValid, setCodeValid] = useState(true)
 
   function verifyCode() {
     window.confirmationResult
@@ -34,7 +35,7 @@ const Provider = ({ children }) => {
           localStorage.setItem('infoSaved', 'true')
         }
       })
-      .catch(() => {})
+      .catch(() => setCodeValid(false))
   }
 
   function onSignInSubmit() {
@@ -148,6 +149,7 @@ const Provider = ({ children }) => {
         phoneNumber,
         setPhoneNumber,
         setOtpCode,
+        otpCode,
         otpSent,
         validatePhoneNumber,
         onSignInSubmit,
@@ -159,6 +161,7 @@ const Provider = ({ children }) => {
         phoneNumValid,
         termsAgreed,
         setTermsAgreed,
+        codeValid,
       }}
     >
       {children}

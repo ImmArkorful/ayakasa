@@ -39,6 +39,8 @@ const Phone = () => {
     phoneNumValid,
     setTermsAgreed,
     termsAgreed,
+    codeValid,
+    otpCode,
   } = authContext
 
   const primaryFont = theme[themeContext.activeTheme]?.fonts.primary
@@ -66,6 +68,8 @@ const Phone = () => {
           primaryFont={primaryFont}
           setOtpCode={setOtpCode}
           verifyCode={verifyCode}
+          otpCode={otpCode}
+          codeValid={codeValid}
         />
       )}
 
