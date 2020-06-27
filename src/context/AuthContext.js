@@ -20,8 +20,11 @@ const Provider = ({ children }) => {
   const [verfyThisNumber, setVerfyThisNumber] = useState('')
   const [termsAgreed, setTermsAgreed] = useState(false)
   const [codeValid, setCodeValid] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   function verifyCode() {
+    setIsLoading(true)
+
     window.confirmationResult
       .confirm(otpCode)
       .then((result) => {
@@ -34,23 +37,30 @@ const Provider = ({ children }) => {
           setInfoSaved(true)
           localStorage.setItem('infoSaved', 'true')
         }
+
+        setIsLoading(false)
       })
-      .catch(() => setCodeValid(false))
+      .catch(() => {
+        setCodeValid(false)
+        setIsLoading(false)
+      })
   }
 
   function onSignInSubmit() {
     const appVerifier = window.recaptchaVerifier
+
+    setIsLoading(true)
 
     firebase
       .auth()
       .signInWithPhoneNumber(verfyThisNumber, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult
+        window.recaptchaVerifier.reset()
         setOtpSent(true)
+        setIsLoading(false)
       })
-      .catch((e) => {
-        console.error(e)
-      })
+      .catch(() => setIsLoading(false))
   }
 
   function setUpRecaptchaVerifier() {
@@ -83,6 +93,8 @@ const Provider = ({ children }) => {
   }
 
   function saveUserData(name, email) {
+    setIsLoading(true)
+
     db.collection(`users`)
       .doc(currentUser.uid)
       .set({
@@ -92,13 +104,14 @@ const Provider = ({ children }) => {
       .then(() => {
         setInfoSaved(true)
         localStorage.setItem('infoSaved', 'true')
+        setIsLoading(false)
       })
-      .catch((error) => {
-        console.error('Error adding document: ', error)
-      })
+      .catch(() => setIsLoading(false))
   }
 
   function signOut() {
+    setIsLoading(true)
+
     firebase
       .auth()
       .signOut()
@@ -109,22 +122,29 @@ const Provider = ({ children }) => {
         setInfoSaved(false)
         setPhoneNumber('')
 
+        setCodeValid(true)
+        setOtpCode('')
+
         localStorage.clear()
 
         setTermsAgreed(false)
         setPhoneNumValid(true)
 
         setVerfyThisNumber('')
+
+        setIsLoading(false)
       })
-      .catch(() => {
-        // An error happened.
-      })
+      .catch(() => setIsLoading(false))
   }
 
   useEffect(() => {
     app.auth().useDeviceLanguage()
 
     app.auth().onAuthStateChanged((user) => {
+      if (user === null) {
+        signOut()
+        return
+      }
       setCurrentUser(user)
     })
 
@@ -162,6 +182,8 @@ const Provider = ({ children }) => {
         termsAgreed,
         setTermsAgreed,
         codeValid,
+        isLoading,
+        setIsLoading,
       }}
     >
       {children}

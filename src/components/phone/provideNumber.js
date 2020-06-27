@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useRef, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { withTranslation, Trans } from 'react-i18next'
