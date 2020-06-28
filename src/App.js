@@ -5,6 +5,9 @@ import PropTypes from 'prop-types'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 
+// css
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+
 // components
 import './App.css'
 import i18n from './i18n'

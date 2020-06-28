@@ -13,6 +13,7 @@
     "about": "À propos",
     "contact": "contact",
     "name": "Nom",
-    "email": "Email"
+    "email": "Email",
+    "code_error_message": "Code invalide, veuillez vérifier et réessayer!"
   }
 }

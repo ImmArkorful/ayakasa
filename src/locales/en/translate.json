@@ -13,6 +13,7 @@
     "about": "about",
     "contact": "contact",
     "name": "Name",
-    "email": "Email"
+    "email": "Email",
+    "code_error_message": "Invalid code, please check and try again!"
   }
 }
