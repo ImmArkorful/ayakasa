@@ -40,6 +40,7 @@ const ProvideNumber = ({
         />
         <NumberInput
           maxLength={10}
+          size={10}
           hasError={!phoneNumValid}
           type="text"
           font={primaryFont}
