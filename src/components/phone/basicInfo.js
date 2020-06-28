@@ -6,23 +6,34 @@ import PropTypes from 'prop-types'
 // compoonents
 import { HeadMSG, ActionButton, NumberInput } from './common'
 
-const BasicInfo = ({ primaryFont, saveUserData }) => {
+const BasicInfo = ({
+  primaryFont,
+  saveUserData,
+  validateEmail,
+  nameValid,
+  emailValid,
+  setNameValid,
+}) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
 
-  const [emailValid, setEmailValid] = useState(true)
-  const [nameValid, setNameValid] = useState(true)
+  const [emailValidLo, setEmailValidLo] = useState(true)
+  const [nameValidLo, setNameValidLo] = useState(true)
+
   const [saveData, setSaveData] = useState(false)
 
   useEffect(() => {
-    if (name === '' || email === '') return
-    if (emailValid && nameValid) saveUserData(name, email)
-  }, [emailValid, nameValid, saveData])
+    if (emailValid && nameValid) {
+      saveUserData(name, email)
+    }
+  }, [emailValid, nameValid, name, email, saveUserData])
 
-  function validateEmail(mail) {
-    const re = /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    return re.test(String(mail).toLowerCase())
-  }
+  useEffect(() => {
+    if (!saveData) return
+
+    if (!emailValid) setEmailValidLo(false)
+    if (!nameValid) setNameValidLo(false)
+  }, [emailValid, nameValid, saveData])
 
   return (
     <InnerHolderVerify>
@@ -35,7 +46,7 @@ const BasicInfo = ({ primaryFont, saveUserData }) => {
           <Trans>name</Trans>
         </Label>
         <NumberInput
-          hasError={!nameValid}
+          hasError={!nameValidLo}
           type="text"
           font={primaryFont}
           onChange={(e) => {
@@ -49,7 +60,7 @@ const BasicInfo = ({ primaryFont, saveUserData }) => {
         </Label>
         <NumberInput
           type="text"
-          hasError={!emailValid}
+          hasError={!emailValidLo}
           font={primaryFont}
           onChange={(e) => {
             setEmail(e.target.value)
@@ -61,10 +72,10 @@ const BasicInfo = ({ primaryFont, saveUserData }) => {
         id="sign-in-button"
         font={primaryFont}
         onClick={() => {
-          setEmailValid(validateEmail(email))
-          setNameValid(name.length >= 2)
+          validateEmail(email)
+          if (name.length >= 2) setNameValid(true)
 
-          setSaveData(!saveData)
+          setSaveData(true)
         }}
       >
         <Trans>done</Trans>
@@ -76,6 +87,10 @@ const BasicInfo = ({ primaryFont, saveUserData }) => {
 BasicInfo.propTypes = {
   primaryFont: PropTypes.string.isRequired,
   saveUserData: PropTypes.func.isRequired,
+  validateEmail: PropTypes.func.isRequired,
+  nameValid: PropTypes.bool.isRequired,
+  emailValid: PropTypes.bool.isRequired,
+  setNameValid: PropTypes.func.isRequired,
 }
 
 export default withTranslation()(BasicInfo)

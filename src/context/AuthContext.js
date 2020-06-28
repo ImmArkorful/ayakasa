@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import * as firebase from 'firebase/app'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
@@ -21,6 +21,8 @@ const Provider = ({ children }) => {
   const [termsAgreed, setTermsAgreed] = useState(false)
   const [codeValid, setCodeValid] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
+  const [emailValid, setEmailValid] = useState(false)
+  const [nameValid, setNameValid] = useState(false)
 
   function verifyCode() {
     setIsLoading(true)
@@ -46,7 +48,7 @@ const Provider = ({ children }) => {
       })
   }
 
-  function onSignInSubmit() {
+  const onSignInSubmit = useCallback(() => {
     const appVerifier = window.recaptchaVerifier
 
     setIsLoading(true)
@@ -61,9 +63,9 @@ const Provider = ({ children }) => {
         setIsLoading(false)
       })
       .catch(() => setIsLoading(false))
-  }
+  }, [verfyThisNumber])
 
-  function setUpRecaptchaVerifier() {
+  const setUpRecaptchaVerifier = useCallback(() => {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       'recaptcha-container',
       {
@@ -76,7 +78,7 @@ const Provider = ({ children }) => {
     )
 
     window.recaptchaVerifier.render()
-  }
+  }, [onSignInSubmit])
 
   function validatePhoneNumber() {
     const parsedPhoneNumber = parsePhoneNumberFromString(
@@ -92,22 +94,34 @@ const Provider = ({ children }) => {
     }
   }
 
-  function saveUserData(name, email) {
-    setIsLoading(true)
+  function validateEmail(mail) {
+    const re = /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    const result = re.test(String(mail).toLowerCase())
 
-    db.collection(`users`)
-      .doc(currentUser.uid)
-      .set({
-        name,
-        email,
-      })
-      .then(() => {
-        setInfoSaved(true)
-        localStorage.setItem('infoSaved', 'true')
-        setIsLoading(false)
-      })
-      .catch(() => setIsLoading(false))
+    setEmailValid(result)
   }
+
+  const saveUserData = useCallback(
+    (name, email) => {
+      if (currentUser === null || (!emailValid && !nameValid)) return
+
+      setIsLoading(true)
+
+      db.collection(`users`)
+        .doc(currentUser.uid)
+        .set({
+          name,
+          email,
+        })
+        .then(() => {
+          setInfoSaved(true)
+          localStorage.setItem('infoSaved', 'true')
+          setIsLoading(false)
+        })
+        .catch(() => setIsLoading(false))
+    },
+    [currentUser, emailValid, nameValid]
+  )
 
   function signOut() {
     setIsLoading(true)
@@ -156,9 +170,10 @@ const Provider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    if (verfyThisNumber !== '' || (termsAgreed && phoneNumValid))
-      setUpRecaptchaVerifier()
-  }, [verfyThisNumber])
+    if (verfyThisNumber === '' || !termsAgreed || !phoneNumValid) return
+
+    setUpRecaptchaVerifier()
+  }, [verfyThisNumber, termsAgreed, phoneNumValid, setUpRecaptchaVerifier])
 
   return (
     <AuthContext.Provider
@@ -184,6 +199,11 @@ const Provider = ({ children }) => {
         codeValid,
         isLoading,
         setIsLoading,
+        nameValid,
+        emailValid,
+        setEmailValid,
+        setNameValid,
+        validateEmail,
       }}
     >
       {children}

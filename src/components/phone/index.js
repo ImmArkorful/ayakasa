@@ -42,6 +42,11 @@ const Phone = () => {
     otpCode,
     isLoading,
     setIsLoading,
+    validateEmail,
+    nameValid,
+    emailValid,
+    setEmailValid,
+    setNameValid,
   } = authContext
 
   const primaryFont = theme[themeContext.activeTheme]?.fonts.primary
@@ -89,7 +94,15 @@ const Phone = () => {
         )}
 
         {userVerified && !infoSaved && (
-          <BasicInfo primaryFont={primaryFont} saveUserData={saveUserData} />
+          <BasicInfo
+            primaryFont={primaryFont}
+            saveUserData={saveUserData}
+            validateEmail={validateEmail}
+            nameValid={nameValid}
+            emailValid={emailValid}
+            setEmailValid={setEmailValid}
+            setNameValid={setNameValid}
+          />
         )}
 
         {infoSaved && <Home primaryFont={primaryFont} signOut={signOut} />}

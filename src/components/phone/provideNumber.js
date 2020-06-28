@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { withTranslation, Trans } from 'react-i18next'
 import PropTypes from 'prop-types'
@@ -12,7 +12,6 @@ const ProvideNumber = ({
   phoneNumValid,
   setPhoneNumber,
   phoneNumber,
-  termsAgreed,
   setTermsAgreed,
   countryCode,
   setCountryCode,
@@ -20,10 +19,6 @@ const ProvideNumber = ({
   const termsCheckBox = useRef()
 
   const [termsAgreedLoacal, setTermsAgreedLoacal] = useState(true)
-
-  useEffect(() => {
-    if (phoneNumber !== '') if (!termsAgreed) setTermsAgreedLoacal(false)
-  }, [termsAgreed])
 
   return (
     <InnerHolderNumber>
@@ -37,7 +32,7 @@ const ProvideNumber = ({
           contentEditable={false}
           type="text"
           value={countryCode}
-          margin="5px"
+          margin="15px 0px 15px 15px"
           font={primaryFont}
           onChange={() => {
             setCountryCode('+233')
@@ -135,6 +130,5 @@ ProvideNumber.propTypes = {
   phoneNumber: PropTypes.string.isRequired,
   setCountryCode: PropTypes.func.isRequired,
   countryCode: PropTypes.string.isRequired,
-  termsAgreed: PropTypes.bool.isRequired,
   phoneNumValid: PropTypes.bool,
 }
