@@ -46,6 +46,7 @@ const BasicInfo = ({
           <Trans>name</Trans>
         </Label>
         <NumberInput
+          maxLength={8}
           hasError={!nameValidLo}
           type="text"
           font={primaryFont}
