@@ -1,4 +1,4 @@
-Consumer marketing app for user engagment and campaigns.
+Ayakasa provides you with the data and tools to access consumers, analyse data and provide insights for successful marketing strategies.
 
 ## App URL
 
