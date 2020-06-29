@@ -1,16 +1,24 @@
 const functions = require('firebase-functions')
 const express = require('express')
+const cors = require('cors')({ origin: true })
 
 const app = express()
 const router = express.Router()
 
-router.post('/register', (req, res) => {
-  res.send('helrlo')
+app.use(cors)
+
+router.get('/', (req, res) => {
+  res.send('none')
 })
-router.post('/verify', (req, res) => {
-  res.send('helvlo')
+
+router.get('/one', (req, res) => {
+  res.send('one')
+})
+
+router.get('/two', (req, res) => {
+  res.send('two')
 })
 
 app.use('/api', router)
 
-exports.fns = functions.https.onRequest(app)
+exports.api = functions.https.onRequest(app)

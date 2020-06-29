@@ -4,8 +4,9 @@
     "ecmaVersion": 2017
   },
   "plugins": ["promise"],
-  "extends": "eslint:recommended",
+  "extends": ["eslint:recommended", "strongloop", "prettier"],
   "rules": {
+    "max-len": [2, 120, 8],
     // Removed rule "disallow the use of console" from recommended eslint rules
     "no-console": "off",
 
