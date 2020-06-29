@@ -1,0 +1,23 @@
+[debug] [2020-06-29T16:21:23.930Z] ----------------------------------------------------------------------
+[debug] [2020-06-29T16:21:23.932Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy --only functions
+[debug] [2020-06-29T16:21:23.933Z] CLI Version:   8.2.0
+[debug] [2020-06-29T16:21:23.933Z] Platform:      darwin
+[debug] [2020-06-29T16:21:23.933Z] Node Version:  v10.21.0
+[debug] [2020-06-29T16:21:23.934Z] Time:          Mon Jun 29 2020 16:21:23 GMT+0000 (Greenwich Mean Time)
+[debug] [2020-06-29T16:21:23.934Z] ----------------------------------------------------------------------
+[debug] [2020-06-29T16:21:23.934Z] 
+[debug] [2020-06-29T16:21:23.947Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-06-29T16:21:23.947Z] > authorizing via signed-in user
+[debug] [2020-06-29T16:21:23.948Z] [iam] checking project ayakasa-53965 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2020-06-29T16:21:23.951Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/ayakasa-53965:testIamPermissions  
+ {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2020-06-29T16:21:25.343Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 29 Jun 2020 16:21:34 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=714","alt-svc":"h3-27=\":443\"; ma=2592000,h3-25=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-06-29T16:21:25.345Z] >>> HTTP REQUEST POST https://iam.googleapis.com/v1/projects/ayakasa-53965/serviceAccounts/ayakasa-53965@appspot.gserviceaccount.com:testIamPermissions  
+ {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2020-06-29T16:21:26.772Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 29 Jun 2020 16:21:36 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-27=\":443\"; ma=2592000,h3-25=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[info] 
+[info] === Deploying to 'ayakasa-53965'...
+[info] 
+[info] i  deploying functions
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
+[info] ✔  functions: Finished running predeploy script.

@@ -4,13 +4,17 @@ const express = require('express')
 const app = express()
 const router = express.Router()
 
-router.post('/register', (req, res) => {
-  res.send('helrlo')
+const cors = require('cors')({ origin: true })
+
+app.use(cors)
+
+router.get('/one', (req, res) => {
+  res.send('one')
 })
-router.post('/verify', (req, res) => {
-  res.send('helvlo')
+router.get('/two', (req, res) => {
+  res.send('two')
 })
 
 app.use('/api', router)
 
-exports.fns = functions.https.onRequest(app)
+exports.api = functions.https.onRequest(app)
